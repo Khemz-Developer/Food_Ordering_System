@@ -73,10 +73,10 @@ const Navbar = () => {
               {navItems}
             </ul>
           </div>
-          {/* <a href="/"><img src={mylogo}  style={{ width: '200px' }} ></img></a> */}
-          <a href="/">
+          <a href="/"><p className="text-2xl text-bold"   style={{ width: '200px' }} ><span className="text-2xl text-bold text-green">Khemz</span>Kitchen</p></a>
+          {/* <a href="/">
             <img src={logo}></img>
-          </a>
+          </a> */}
         </div>
         <div className="hidden navbar-center lg:flex">
           <ul className="px-1 menu menu-horizontal">{navItems}</ul>
@@ -104,7 +104,7 @@ const Navbar = () => {
           <div
             tabIndex={0}
             role="button"
-            className="items-center justify-center hidden mr-3  lg:flex btn btn-ghost btn-circle"
+            className="items-center justify-center hidden mr-3 lg:flex btn btn-ghost btn-circle"
           >
             <div className="indicator">
               <svg

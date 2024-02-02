@@ -3,3 +3,7 @@
 body{
     font-family: 'Inter', sans-serif;
 }
+
+.section-container{
+    @apply px-4 mx-auto max-w-screen-2xl xl:px-24;
+}
