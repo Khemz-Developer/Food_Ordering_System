@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "/logo.png";
 import mylogo from "/MyLogo.png";
 import { BiPhoneCall } from "react-icons/bi";
 const Navbar = () => {
-  const navItems = (
+  const [isSticky, setSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 0) {
+        setSticky(true);
+      } else {
+        setSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+const navItems = (
     <>
       <li>
         <a href="/">Home</a>
@@ -46,7 +65,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <header className="container mx-auto max-w-screen-2xl">
+    <header className={`container mx-auto max-w-screen-2xl ${isSticky ? 'sticky top-0 bg-white z-10 shadow' : ''}`}>
       <div className="navbar xl:px-24 ">
         <div className="navbar-start">
           <div className="dropdown">
@@ -73,10 +92,15 @@ const Navbar = () => {
               {navItems}
             </ul>
           </div>
-          {/* <a href="/"><img src={mylogo}  style={{ width: '200px' }} ></img></a> */}
           <a href="/">
-            <img src={logo}></img>
+            <p className="text-2xl text-bold" style={{ width: "200px" }}>
+              <span className="text-2xl text-bold text-green">Khemz</span>
+              Kitchen
+            </p>
           </a>
+          {/* <a href="/">
+            <img src={logo}></img>
+          </a> */}
         </div>
         <div className="hidden navbar-center lg:flex">
           <ul className="px-1 menu menu-horizontal">{navItems}</ul>
@@ -104,7 +128,7 @@ const Navbar = () => {
           <div
             tabIndex={0}
             role="button"
-            className="items-center justify-center hidden mr-3  lg:flex btn btn-ghost btn-circle"
+            className="items-center justify-center hidden mr-3 lg:flex btn btn-ghost btn-circle"
           >
             <div className="indicator">
               <svg
