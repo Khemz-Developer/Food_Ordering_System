@@ -19,3 +19,9 @@ body{
 .heartStar{
     border-radius: 0px 28px 0px 28px;
 }
+
+.active{
+    text-decoration: underline;
+    color: #39DB4A;
+    text-underline-offset: 5px;
+}
