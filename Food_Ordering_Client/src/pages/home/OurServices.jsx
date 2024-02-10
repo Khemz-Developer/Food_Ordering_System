@@ -34,7 +34,7 @@ const OurServices = () => {
           <div className="grid items-center gap-8 sm:grid-cols-2 grid-col">
           {
             servicesLists.map((service)=>(
-                <div id={service.id} className="py-5 space-y-2 text-center transition-all duration-200 rounded-md shadow-md cursor-pointer text-green hover:border-indigo-600 hover:border">
+                <div key={service.id} className="py-5 space-y-2 text-center transition-all duration-200 rounded-md shadow-md cursor-pointer text-green hover:border-indigo-600 hover:border">
                     <img src={service.image} className="mx-auto"></img>
                     <h5 className="pt-3 font-semibold">{service.title}</h5>
                     <p className="text-[#90BD95]">{service.des}</p>
