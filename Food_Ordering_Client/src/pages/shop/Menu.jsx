@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Cards from "../../components/Cards";
 import { FaFilter } from "react-icons/fa";
+
 const Menu = () => {
   const [menu, setMenu] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
+  
+  //pagination 
+  const [currentPage,setCurrentPage] =  useState(1);
+  const [itemsPerPage] = useState(8)
 
+  
   //loading data
   useEffect(() => {
     //fetch data from the backend --
@@ -36,14 +42,17 @@ const Menu = () => {
 
     setFilteredItems(filtered);
     setSelectedCategory(category);
+    setCurrentPage(1)
   };
 
-  //show all data
+  //show all data function
   const showAll = () => {
     setFilteredItems(menu);
     setSelectedCategory("all");
+    setCurrentPage(1)
   };
-
+  
+  // shorting based on A-Z ,Z-A ,Low - High Pricing
   const handleSortChange = (option) => {
     setSortOption(option);
 
@@ -67,15 +76,21 @@ const Menu = () => {
         break;
     }
 
-    setFilteredItems(sortedItems)
+    setFilteredItems(sortedItems);
+    setCurrentPage(1)
   };
 
-  // shorting based on A-Z ,Z-A ,Low - High Pricing
+  //pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredItems.slice(indexOfFirstItem,indexOfLastItem)
+  const paginate =(pageNumber)=> setCurrentPage(pageNumber)
+ 
   return (
     <div>
       {/* menu banner */}
       <div className="section-container bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
-        <div className="flex flex-col items-center justify-center gap-8 py-48 ">
+        <div className="flex flex-col items-center justify-center gap-8 py-48">
           {/*test*/}
           <div className="px-4 space-y-6 text-center ">
             <h2 className="text-4xl font-bold leading-snug md:leading-snug md:text-5xl">
@@ -128,10 +143,18 @@ const Menu = () => {
 
         {/* product cards*/}
         <div className="grid grid-cols-1 gap-2 mt-3 md:grid-cols-4 sm:grid-col-2">  
-            {filteredItems.map((item, i) => (
+            {currentItems.map((item, i) => (
               <Cards key={i} item={item}></Cards>
             ))}
         </div>
+      </div>
+      {/*pagination section*/}
+      <div className="flex justify-center">
+        {Array.from({length: Math.ceil(filteredItems.length / itemsPerPage)}).map((_,index)=>(
+          <button key={index+1} onClick={()=>paginate(index+1)} className={`py-1 px-4 mx-1 rounded-full ${ currentPage === index+1 ? "bg-green text-white" : "bg-grey-200"}`}>
+            {index+1}
+          </button>
+       ) )}
       </div>
     </div>
   );
