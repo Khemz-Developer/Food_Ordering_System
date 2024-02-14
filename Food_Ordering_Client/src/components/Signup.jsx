@@ -4,26 +4,26 @@ import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form"
+import Modal from "./Modal";
 
 
-const Modal = () => {
-  { /* React hook form */ }
-  
+const Signup = () => {
+
     const {
-      register,
-      handleSubmit,
-      
-      formState: { errors },
-    } = useForm()
-  
-    const onSubmit = (data) => console.log(data)
+        register,
+        handleSubmit,
+        
+        formState: { errors },
+      } = useForm()
     
+      const onSubmit = (data) => console.log(data)
+    
+      
   return (
-    <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle">
-      <div className=" modal-box">
+    <div className="flex items-center justify-center w-full max-w-md mx-auto mt-20 bg-white shadow">
         <div className="flex flex-col justify-center mt-0 modal-action">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body" method="dialog">
-            <h3 className="text-lg font-bold">Please Login!</h3>
+            <h3 className="text-lg font-bold">Create an Account!</h3>
             <div className="form-control">
 
               {/* mail */}
@@ -66,18 +66,21 @@ const Modal = () => {
             <div className="mt-6 form-control">
               <input
                 type="submit"
-                value="Login"
+                value="Signup"
                 className="text-white btn bg-green"
               />
             </div>
 
             <p className="my-2 text-center">
-              Donot have an account?{" "}
-              <Link className="ml-1 underline text-red" to="/signup">
-                Signup Now
-              </Link>
+              Have an account?{" "}
+              <button onClick={() => document.getElementById("my_modal_5").showModal()} className="ml-1 underline text-red" to="/login">
+                Login
+              </button>
+              <Modal/>
             </p>
-            <button htmlFor="my_modal_5" onClick={() => document.getElementById("my_modal_5").close()} className="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">✕</button>
+
+            <Link to="/"   className="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">✕</Link>
+
           </form>
 
           {/* social sign in */}
@@ -97,9 +100,9 @@ const Modal = () => {
            
           </div>
         </div>
-      </div>
-    </dialog>
-  );
-};
+    </div>
+  )
+}
 
-export default Modal;
+export default Signup
+Signup
