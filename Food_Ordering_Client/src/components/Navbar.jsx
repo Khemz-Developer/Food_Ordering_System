@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import logo from "/logo.png";
 import mylogo from "/MyLogo.png";
 import { BiPhoneCall } from "react-icons/bi";
+import { FaRegUser } from "react-icons/fa";
+import Modal from "./Modal";
+
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
 
@@ -22,10 +25,12 @@ const Navbar = () => {
     };
   }, []);
 
-const navItems = (
+  const navItems = (
     <>
       <li>
-        <a className="text-black" href="/">Home</a>
+        <a className="text-black" href="/">
+          Home
+        </a>
       </li>
       <li>
         <details>
@@ -65,7 +70,11 @@ const navItems = (
     </>
   );
   return (
-    <header className={`container mx-auto max-w-screen-2xl ${isSticky ? 'sticky top-0 bg-white z-10 shadow' : ''}`}>
+    <header
+      className={`container mx-auto max-w-screen-2xl ${
+        isSticky ? "sticky top-0 bg-white z-10 shadow" : ""
+      }`}
+    >
       <div className="navbar xl:px-24 ">
         <div className="navbar-start">
           <div className="dropdown">
@@ -148,11 +157,15 @@ const navItems = (
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </div>
-          {/*btn */}
-          <a className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green">
-            <BiPhoneCall />
-            Contact
-          </a>
+          {/*login btn */}
+          <button
+            onClick={() => document.getElementById("my_modal_5").showModal()}
+            className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green"
+          >
+            <FaRegUser />
+            Login
+          </button>
+          <Modal/>
         </div>
       </div>
     </header>
