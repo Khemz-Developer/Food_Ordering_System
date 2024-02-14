@@ -97,7 +97,7 @@ const Signup = () => {
             <button className="btn btn-circle hover:bg-green hover:text-white">
             <FaGithub />
             </button>
-           
+            <>hi</>
           </div>
         </div>
     </div>
