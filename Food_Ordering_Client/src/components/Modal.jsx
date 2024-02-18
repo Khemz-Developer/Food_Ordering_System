@@ -32,6 +32,7 @@ const Modal = () => {
     signUpWithGmail().then((result)=>{
       const user = result.user;
       alert("Login successfully");
+      document.getElementById("my_modal_5").close();
     }).catch((error)=>{
       console.log(error);
     });
@@ -47,6 +48,7 @@ const Modal = () => {
       navigate(from, { replace: true });
     }).catch((error)=>{
       const errorMessage = error.message;
+      console.log(errorMessage);
       setErrorMessage("Provide a correct email and password");
     });
   }
