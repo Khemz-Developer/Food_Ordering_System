@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
-import logo from "/logo.png";
-import mylogo from "/MyLogo.png";
-import { BiPhoneCall } from "react-icons/bi";
+import React, { useContext, useEffect, useState } from "react";
+// import logo from "/logo.png";
+// import mylogo from "/MyLogo.png";
+// import { BiPhoneCall } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
+import { AuthContext } from "../contexts/AuthProvider";
+import Profile from "./Profile";
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
+
+  // auth context 
+  const {user} = useContext(AuthContext);
+  console.log(user);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -158,13 +164,15 @@ const Navbar = () => {
             </div>
           </div>
           {/*login btn */}
-          <button
+          {
+            user? <Profile user={user}/> : <button
             onClick={() => document.getElementById("my_modal_5").showModal()}
             className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green"
           >
             <FaRegUser />
             Login
           </button>
+          }
           <Modal/>
         </div>
       </div>
