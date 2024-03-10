@@ -5,6 +5,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthProvider";
+import { FacebookAuthProvider } from "firebase/auth";
 
 const Modal = () => {
   {
@@ -18,43 +19,76 @@ const Modal = () => {
     formState: { errors },
   } = useForm();
 
-  const { signUpWithGmail, loginWithEmail } = useContext(AuthContext);
+  const { signUpWithGmail, loginWithEmail, signUpWithFacebook,signUpWithGithub } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   //redirecting to homepage or specific page
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  
-  
+
   // google signin
   const handleLogin = () => {
-    signUpWithGmail().then((result)=>{
-      const user = result.user;
-      alert("Login successfully");
-      document.getElementById("my_modal_5").close();
-    }).catch((error)=>{
-      console.log(error);
-    });
+    signUpWithGmail()
+      .then((result) => {
+        const user = result.user;
+        alert("Login successfully");
+        document.getElementById("my_modal_5").close();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  // facebook signin
+   // Facebook sign-in
+   const handleFacebookLogin = () => {
+    signUpWithFacebook()
+      .then((result) => {
+        const user = result.user;
+        
+        //const credential = FacebookAuthProvider.credentialFromResult(result);
+        //const token = credential.accessToken;
+        
+        alert("Login with Facebook successfully");
+        document.getElementById("my_modal_5").close();
+      })
+      .catch((error) => {
+        console.log("Error signing in with Facebook:", error);
+      });
+  };
+
+  const handleGithubLogin = () => {
+    signUpWithGithub()
+      .then((result) => {
+        const user = result.user;
+        alert("Login with Github successfully");
+        document.getElementById("my_modal_5").close();
+      })
+      .catch((error) => {
+        console.log("Error signing in with Github:", error);
+      });
+  }
+  
+  
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
     //console.log(email, password);
-    loginWithEmail(email, password).then((result)=>{
-      const user = result.user;
-      alert("Login successfull");
-      document.getElementById("my_modal_5").close();
-      navigate(from, { replace: true });
-    }).catch((error)=>{
-      const errorMessage = error.message;
-      console.log(errorMessage);
-      setErrorMessage("Provide a correct email and password");
-    });
-  }
+    loginWithEmail(email, password)
+      .then((result) => {
+        const user = result.user;
+        alert("Login successfull");
+        document.getElementById("my_modal_5").close();
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        setErrorMessage("Provide a correct email and password");
+      });
+  };
 
-  
-  
   return (
     <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle">
       <div className=" modal-box">
@@ -101,9 +135,11 @@ const Modal = () => {
             </div>
 
             {/* error */}
-           {
-            errorMessage ? <p className="text-xs italic text-red">{errorMessage}</p> : ""
-           }
+            {errorMessage ? (
+              <p className="text-xs italic text-red">{errorMessage}</p>
+            ) : (
+              ""
+            )}
 
             {/* login btn */}
             <div className="mt-6 form-control">
@@ -138,11 +174,15 @@ const Modal = () => {
               <FaGoogle />
             </button>
 
-            <button className="btn btn-circle hover:bg-green hover:text-white">
+            <button
+              className="btn btn-circle hover:bg-green hover:text-white"
+              onClick={handleFacebookLogin}
+            >
               <FaFacebookF />
             </button>
 
-            <button className="btn btn-circle hover:bg-green hover:text-white">
+            <button className="btn btn-circle hover:bg-green hover:text-white"
+            onClick={handleGithubLogin}>
               <FaGithub />
             </button>
           </div>
