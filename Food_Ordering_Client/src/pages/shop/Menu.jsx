@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Cards from "../../components/Cards";
 import { FaFilter } from "react-icons/fa";
-
+import axios from "axios";
 const Menu = () => {
   const [menu, setMenu] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -16,19 +16,34 @@ const Menu = () => {
   //loading data
   useEffect(() => {
     //fetch data from the backend --
-    const fetchData = async () => {
-      try {
-        const responce = await fetch("/menu.json");
-        const data = await responce.json();
+    // const fetchData = async () => {
+    //   try {
+    //     const responce = await fetch("http://localhost:3000/menu");
+    //     console.log(responce);
+    //     const data = await responce.json();
         
-        setMenu(data);
-        setFilteredItems(data);
-      } catch (error) {
-        console.log("Error fetching data ", error);
-      }
-    };
+    //     setMenu(data);
+    //     setFilteredItems(data);
+    //   } catch (error) {
+    //     console.log("Error fetching data ", error);
+    //   }
+    // };
 
-    //Call the function
+    // //Call the function
+    // fetchData();
+
+    //fetch data from the backend using axios
+   
+    const  fetchData = async () =>{
+    try{
+      const response = await axios.get("http://localhost:3000/menu");
+      // console.log(response.data);
+      setMenu(response.data);
+      setFilteredItems(response.data);
+    }catch(error){
+      console.log("Error fetching data ", error);
+    }
+  }
     fetchData();
   }, []);
 

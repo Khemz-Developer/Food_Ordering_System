@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthProvider";
-import { FacebookAuthProvider } from "firebase/auth";
+
 
 const Modal = () => {
   {
@@ -46,9 +46,6 @@ const Modal = () => {
     signUpWithFacebook()
       .then((result) => {
         const user = result.user;
-        
-        //const credential = FacebookAuthProvider.credentialFromResult(result);
-        //const token = credential.accessToken;
         
         alert("Login with Facebook successfully");
         document.getElementById("my_modal_5").close();
