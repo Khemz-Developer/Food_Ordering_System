@@ -40,7 +40,7 @@ const Modal = () => {
       });
   };
 
-  // facebook signin
+  
    // Facebook sign-in
    const handleFacebookLogin = () => {
     signUpWithFacebook()
@@ -55,17 +55,33 @@ const Modal = () => {
       });
   };
 
+  // const handleGithubLogin = () => {
+  //   signUpWithGithub()
+  //     .then((result) => {
+  //       const user = result.user;
+  //       alert("Login with Github successfully");
+  //       document.getElementById("my_modal_5").close();
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error signing in with Github:", error);
+  //     });
+  // }
   const handleGithubLogin = () => {
     signUpWithGithub()
       .then((result) => {
         const user = result.user;
-        alert("Login with Github successfully");
+        if (user && user.email) {
+          alert("Login with Github successfully");
+        } else {
+          alert("Login with Github successful, but email is not provided. Please provide an email.");
+          
+        }
         document.getElementById("my_modal_5").close();
       })
       .catch((error) => {
         console.log("Error signing in with Github:", error);
       });
-  }
+  };
   
   
   const onSubmit = (data) => {
