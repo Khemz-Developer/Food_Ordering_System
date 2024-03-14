@@ -1,12 +1,111 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import { AuthContext } from "../contexts/AuthProvider";
+//import axios from "axios";
+import PropTypes from "prop-types";
+import Swal from 'sweetalert2'
 
 const Cards = ({ item }) => {
+  
+  const { name, image, _id, recipe, category, price } = item;
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { user } = useContext(AuthContext);
+  //console.log(user);
   const [isHeartFillted, setIsHeartFillted] = useState(false);
 
-  const handleHeartClick = () => {
+  const handleHeartClick = (item) => {
     setIsHeartFillted(!isHeartFillted);
+  };
+
+  //add to cart button
+
+  const handleAddtoCart = async () => {
+    console.log("Add to cart button clicked", item);
+    if (user && user?.email) {
+      const cartItem = {
+        menuItemId: _id,
+        name,
+        image,
+        quantity: 1,
+        price,
+        email: user.email,
+      };
+
+      fetch("http://localhost:3000/carts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.insertedId) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your item has been saved",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    //   try {
+    //     const response = await axios.post('http://localhost:3000/carts', cartItem);
+    //     console.log(response.data);
+    //     if(response.data.insertedId){
+          
+    //       Swal.fire({
+    //         position: "top-end",
+    //         icon: "success",
+    //         title: "Your item has been saved",
+    //         showConfirmButton: false,
+    //         timer: 1500
+    //       });
+        
+    //     }
+    //   } catch (error) {
+    //     console.error('Error:', error); 
+    //   }
+
+    // }else{
+    //   Swal.fire({
+    //     title: "Please Login",
+    //     text: "You won't be able to add product without Account!",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "SignUp Now!"
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       navigate("/signup",{state:{from:location}});
+    //     }
+    //   });
+    
+    }else{
+      Swal.fire({
+        title: "Please Login",
+        text: "You won't be able to add product without Account!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "SignUp Now!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signup",{state:{from:location}});
+        }
+      });
+    }
   };
 
   return (
@@ -44,12 +143,27 @@ const Cards = ({ item }) => {
               <span className="font-sm text-red">$</span>
               {item.price}
             </h5>
-            <button className="text-white btn bg-green">Buy Now</button>
+            <button
+              className="text-white btn bg-green"
+              onClick={() => handleAddtoCart(item)}
+            >
+              Buy Now
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
+// PropTypes
+Cards.propTypes = {
+  item: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
+      recipe: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+  }).isRequired,
+};
 export default Cards;

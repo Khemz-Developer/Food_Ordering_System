@@ -17,6 +17,7 @@ app.use(express.json()) // use express.json middleware
 //mongoDB configuration
 
 const { MongoClient, ServerApiVersion } = require('mongodb'); // import MongoClient and ServerApiVersion from mongodb
+const { ObjectId } = require('mongodb'); // import ObjectId from mongodb
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@khemzkitchen-database.bgzowuu.mongodb.net/?retryWrites=true&w=majority&appName=khemzKitchen-database`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -43,6 +44,39 @@ async function run() {
       const result = await menuCollection.find({}).toArray();
       res.send(result);
     });
+
+  
+
+    //post our cart items to database
+    app.post('/carts',async (req,res)=>{
+      const cartItems = req.body;
+      const result = await cartCollection.insertOne(cartItems);
+      res.send(result);
+    })
+    
+    //get our cart items using email
+    app.get('/carts', async (req,res)=>{
+      const email = req.query.email;
+      const filter = {email: email};
+      const result = await cartCollection.find(filter).toArray();
+      res.send(result);
+    })
+    
+    //get specific cart
+    app.get('/carts/:id', async (req, res) => { // Corrected the route path
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await cartCollection.findOne(filter);
+      res.send(result);
+    });
+    // delete cart items
+    app.delete('/carts/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await cartCollection.deleteOne(query);
+      res.send(result);
+    }
+    )
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
