@@ -27,7 +27,7 @@ const router = createBrowserRouter([
           path:"/cart-page",
           element:<PrivateRouter><CartPage/></PrivateRouter>
         }
-      ]
+      ] 
     },
     {
       path: "/signup",

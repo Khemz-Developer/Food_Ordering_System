@@ -61,6 +61,7 @@ async function run() {
       const result = await cartCollection.find(filter).toArray();
       res.send(result);
     })
+    // can check in browser by :http://localhost:3000/carts?email=khemzdesign98@gmail.com
     
     //get specific cart
     app.get('/carts/:id', async (req, res) => { // Corrected the route path
@@ -69,6 +70,9 @@ async function run() {
       const result = await cartCollection.findOne(filter);
       res.send(result);
     });
+
+    // can check in browser by :http://localhost:3000/carts/60f7b3b3b3b3b3b3b3b3b3b3
+
     // delete cart items
     app.delete('/carts/:id',async(req,res)=>{
       const id = req.params.id;
@@ -77,6 +81,21 @@ async function run() {
       res.send(result);
     }
     )
+
+    // update carts quantity
+    app.put('/carts/:id',async(req,res)=>{
+      const id = req.params.id;
+      const {quantity} = req.body; // here we are getting quantity from request body its called as destructuring
+      const query = {_id: new ObjectId(id)};
+      const options = {upsert: true}; // upsert is used to create a new document if it does not exist
+      const updateDoc = {
+        $set: {
+          quantity: parseInt(quantity,10) // here we are converting quantity to integer
+        }
+      }
+      const result = await cartCollection.updateOne(query,updateDoc,options);
+      res.send(result);
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
