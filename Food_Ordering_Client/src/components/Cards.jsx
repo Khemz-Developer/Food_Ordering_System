@@ -58,38 +58,6 @@ const Cards = ({ item }) => {
         .catch((error) => {
           console.error("Error:", error);
         });
-    //   try {
-    //     const response = await axios.post('http://localhost:3000/carts', cartItem);
-    //     console.log(response.data);
-    //     if(response.data.insertedId){
-          
-    //       Swal.fire({
-    //         position: "top-end",
-    //         icon: "success",
-    //         title: "Your item has been saved",
-    //         showConfirmButton: false,
-    //         timer: 1500
-    //       });
-        
-    //     }
-    //   } catch (error) {
-    //     console.error('Error:', error); 
-    //   }
-
-    // }else{
-    //   Swal.fire({
-    //     title: "Please Login",
-    //     text: "You won't be able to add product without Account!",
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "SignUp Now!"
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       navigate("/signup",{state:{from:location}});
-    //     }
-    //   });
     
     }else{
       Swal.fire({
