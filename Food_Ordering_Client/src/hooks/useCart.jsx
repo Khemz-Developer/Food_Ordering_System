@@ -11,7 +11,8 @@ const useCart = () => {
     queryKey:["cart",user?.email],
     queryFn:async ()=>{
       
-      const res = await fetch(`http://localhost:3000/carts?email=${user?.email}`);
+      const res = await fetch(`http://localhost:3000/cart/${user?.email}`);
+      //const res = await fetch(`http://localhost:3000/cart?email=${user?.email}`);
       return res.json();
     }
   })

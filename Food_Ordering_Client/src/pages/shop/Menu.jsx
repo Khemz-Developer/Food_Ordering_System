@@ -41,7 +41,7 @@ const Menu = () => {
       setMenu(response.data);
       setFilteredItems(response.data);
     }catch(error){
-      console.log("Error fetching data ", error);
+      console.log("Error fetching data ", error) ;
     }
   }
     fetchData();
