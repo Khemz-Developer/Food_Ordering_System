@@ -13,7 +13,7 @@ const CartPage = () => {
   const handleDecrease = async (item) => {
     console.log(item._id);
     if(item.quantity > 1) {
-      fetch(`http://localhost:3000/carts/${item._id}`, {
+      fetch(`http://localhost:3000/cart/${item._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -22,6 +22,8 @@ const CartPage = () => {
       })
         .then(res => res.json())
         .then(data => {
+          
+          console.log(data);
           const updatedCart = cartItems.map((cartItem) => {
             if (cartItem._id === item._id) {
               return {
@@ -44,7 +46,7 @@ const CartPage = () => {
   //handle increase quantity function
   const handleIncrease = async (item) => {
     console.log(item._id);
-    fetch(`http://localhost:3000/carts/${item._id}`, {
+    fetch(`http://localhost:3000/cart/${item._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +97,7 @@ const CartPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         console.log(item._id);
-        fetch(`http://localhost:3000/carts/${item._id}`, {
+        fetch(`http://localhost:3000/cart/${item._id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
