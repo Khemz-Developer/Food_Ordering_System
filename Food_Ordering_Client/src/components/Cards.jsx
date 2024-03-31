@@ -121,11 +121,14 @@ const Cards = ({ item }) => {
             confirmButtonText: 'Login now!'
           }).then((result) => {
             if (result.isConfirmed) {
-              navigate('/login', {state: {from: location}})
+              navigate('/signup', {state: {from: location}})
             }
           })
     }
 }
+
+  
+  
   return (
     <div>
       {/* <div className="relative shadow-xl w-96 card bg-base-100"> */}
