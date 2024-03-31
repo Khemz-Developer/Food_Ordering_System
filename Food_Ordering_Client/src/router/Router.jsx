@@ -6,6 +6,10 @@ import Signup from "../components/Signup";
 import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import UpdateProfile from "../pages/dashboard/UpdateProfile";
 import CartPage from "../pages/shop/CartPage";
+import Modal from "../components/Modal";
+import DashboardLayout from "../layout/DashboardLayout";
+import Dashboard from "../pages/dashboard/admin/Dashboard";
+import User from "../pages/dashboard/admin/User";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -32,6 +36,23 @@ const router = createBrowserRouter([
     {
       path: "/signup",
       element :<Signup/>
+    },
+    {
+      path:"/login",
+      element:<Modal/>
+    },{
+      path:"/dashboard",
+      element:<PrivateRouter><DashboardLayout/></PrivateRouter>,
+      children:[
+        {
+          path:"",
+          element:<Dashboard/>
+        },
+        {
+          path:"users",
+          element:<User/>
+        }
+      ]
     }
   ]);
 
