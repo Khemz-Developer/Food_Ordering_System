@@ -1,11 +1,17 @@
 const express = require("express"); // import express
 const app = express(); // create an express app
 
+// import jsonwebtoken
+const jwt = require("jsonwebtoken"); 
+
+const verifyToken = require('./api/middleware/verifyToken'); // import verifyToken middleware
+
 // Load environment variables from the .env file
 require('dotenv').config()
 
 const cors = require("cors"); // import cors
 const port = process.env.PORT || 3000; // set the port
+
 
 const mongoose = require("mongoose"); // import mongoose
 
@@ -17,8 +23,10 @@ app.use(express.json()); // use express.json middleware
 mongoose
   .connect(
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@khemzkitchen-database.bgzowuu.mongodb.net/Khemz-Kitchen-Database?retryWrites=true&w=majority&appName=khemzKitchen-database`
+    
     )
   .then(() => {
+   
     try {
       console.log("Connected to MongoDB Database!");
     } catch (error) {
@@ -27,17 +35,32 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to the Mongodb database",error));
 
+app.post('/jwt',async(req,res)=>{
+  const user = req.body;
+  const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{
+    expiresIn: "1hr"
+  });
+
+  res.send({token});
+})
+
+
+
  //imports routes 
 const menuRoutes = require('./api/routes/menuRoutes');
 const cartRoutes = require('./api/routes/cartRoutes');
+const userRoutes = require('./api/routes/userRoutes');
+
 
 // use routes
 app.use('/menu', menuRoutes);
 app.use('/cart', cartRoutes);
+app.use('/user', userRoutes);
+
 // can check in browser by :http://localhost:3000/cart?email=khemzdesign98@gmail.com
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.get("/",verifyToken, (req, res) => {
+  res.send("Hello Khemz Kitchen!");
 });
 
 app.listen(port, () => {

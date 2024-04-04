@@ -1,3 +1,4 @@
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
@@ -21,19 +22,7 @@ const Signup = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  // const onSubmit = (data) => {
-  //   const email = data.email;
-  //   const password = data.password;
-
-  //   createUser(email, password).then((result) => {
-  //     const user = result.user;
-  //     alert("User created successfully");
-  //   }).catch((error) => {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     alert("User not created successfully");
-  //   })
-  // }
+  
 
   const onSubmit = (data) => {
     const email = data.email;
@@ -128,7 +117,7 @@ const Signup = () => {
 
         {/* social sign in */}
         <div className="mb-5 space-x-3 text-center">
-          <button className="btn btn-circle hover:bg-green hover:text-white">
+          <button  className="btn btn-circle hover:bg-green hover:text-white">
             <FaGoogle />
           </button>
 
