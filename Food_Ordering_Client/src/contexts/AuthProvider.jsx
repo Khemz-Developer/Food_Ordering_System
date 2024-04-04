@@ -13,6 +13,7 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import axios from "axios";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -68,6 +69,16 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+
+        //after implement jwt and middleware now making this
+
+        if (currentUser) {
+          const userInfo = { email: currentUser.email };
+          axios.post("http://localhost:3000/jwt", userInfo).then((response) => {
+            console.log(response);
+          });
+        }
+
         setLoading(false);
       } else {
         setUser(null);
@@ -89,7 +100,6 @@ const AuthProvider = ({ children }) => {
     loading,
     signUpWithFacebook,
     signUpWithGithub,
-    
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
@@ -100,7 +110,6 @@ AuthProvider.propTypes = {
 };
 
 export default AuthProvider;
-
 
 // import { useEffect, useState } from "react";
 // import { createContext } from "react";

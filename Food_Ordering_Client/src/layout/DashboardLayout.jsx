@@ -6,6 +6,38 @@ import { BiSolidFoodMenu } from "react-icons/bi";
 import { TbSitemap } from "react-icons/tb";
 import { RxDashboard } from "react-icons/rx";
 import { AiOutlineUser } from "react-icons/ai";
+import { FaCartShopping } from "react-icons/fa6";
+import { FaLocationArrow, FaRegQuestionCircle } from "react-icons/fa";
+
+const sharedLinks = (
+  <>
+    <li className="mt-3">
+      <Link to="/">
+        <BiSolidDashboard />
+        Home
+      </Link>
+    </li>
+    <li>
+      <Link to="/menu">
+        <FaCartShopping />
+        Menu
+      </Link>
+    </li>
+    <li>
+      <Link to="/menu">
+        <FaLocationArrow />
+        Orders Tracking
+      </Link>
+    </li>
+    <li>
+      <Link to="/menu">
+        <FaRegQuestionCircle />
+        Customer Support
+      </Link>
+    </li>
+  </>
+);
+
 
 const DashboardLayout = () => {
   return (
@@ -48,7 +80,10 @@ const DashboardLayout = () => {
                 </Link>
               </li>
             </div>
-            <hr className="border-2 border-blue-100" />
+            
+            <hr className="border-2" />
+
+
             <li>
               <Link to="/dashboard">
                 <BiSolidDashboard />
@@ -73,13 +108,21 @@ const DashboardLayout = () => {
                 Manage Items
               </Link>
             </li>
-            <li>
+            <li className="mb-5">
               <Link to="/dashboard/users">
                 <FiUsers />
                 All Users
               </Link>
             </li>
+
+            <hr className="border-2" />
+          {/* Shared links */}
+          {
+            sharedLinks
+          }
           </ul>
+          
+          
         </div>
       </div>
     </div>

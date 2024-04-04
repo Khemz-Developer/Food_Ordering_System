@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"; // Import PropTypes
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Profile = ({ user }) => {
     const {logOut} = useContext(AuthContext)
@@ -46,10 +47,13 @@ const Profile = ({ user }) => {
               <a href="/update-profile">Profile</a>
             </li>
             <li>
-              <a>Order</a>
+              <a href="/order">Order</a>
             </li>
             <li>
               <a>Settings</a>
+            </li>
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
               <a onClick={handleLogout}>Logout</a>
