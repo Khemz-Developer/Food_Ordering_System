@@ -1,4 +1,3 @@
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
@@ -7,6 +6,8 @@ import { useForm } from "react-hook-form";
 import Modal from "./Modal";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
+import axios from "axios";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const Signup = () => {
   const {
@@ -16,13 +17,14 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, loginWithEmail } = useContext(AuthContext);
+  const { createUser, signUpWithGmail, loginWithEmail, updateuserProfile } =
+    useContext(AuthContext);
 
+  const axiosPublic = useAxiosPublic();
   //redirecting to homepage or specific page
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  
 
   const onSubmit = (data) => {
     const email = data.email;
@@ -31,13 +33,42 @@ const Signup = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user;
-        alert("User Account created successfully");
-        navigate(from, { replace: true });
+        updateuserProfile(data.email, data.photoURL).then(() => {
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic.post("/user", userInfo).then(
+            (response) => {
+              // console.log(response);
+              alert("User Account created successfully");
+              navigate(from, { replace: true });
+            }
+          );
+        });
       })
       .catch((error) => {
         console.error("Error code:", error.code);
         console.error("Error message:", error.message);
       });
+  };
+
+  // login with google
+  const handleRegister = () => {
+    signUpWithGmail()
+      .then((result) => {
+        const user = result.user;
+        const userInfo = {
+          name: result?.user?.displayName,
+          email: result?.user?.email,
+        };
+        axiosPublic.post("/user", userInfo).then((response) => {
+          // console.log(response);
+          alert("User Account created successfully");
+          navigate("/");
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -49,6 +80,22 @@ const Signup = () => {
           method="dialog"
         >
           <h3 className="text-lg font-bold">Create an Account!</h3>
+          
+          {/* name */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input
+              type="name"
+              placeholder="Your name"
+              className="input input-bordered"
+              {...register("name")}
+            />
+          </div>
+          
+          
+          
           <div className="form-control">
             {/* mail */}
             <label className="label">
@@ -117,7 +164,10 @@ const Signup = () => {
 
         {/* social sign in */}
         <div className="mb-5 space-x-3 text-center">
-          <button  className="btn btn-circle hover:bg-green hover:text-white">
+          <button
+            onClick={handleRegister}
+            className="btn btn-circle hover:bg-green hover:text-white"
+          >
             <FaGoogle />
           </button>
 
@@ -135,4 +185,3 @@ const Signup = () => {
 };
 
 export default Signup;
-

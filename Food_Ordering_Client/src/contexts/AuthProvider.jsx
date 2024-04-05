@@ -67,23 +67,26 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
       if (currentUser) {
-        setUser(currentUser);
-
         //after implement jwt and middleware now making this
-
-        if (currentUser) {
-          const userInfo = { email: currentUser.email };
-          axios.post("http://localhost:3000/jwt", userInfo).then((response) => {
-            console.log(response);
-          });
-        }
-
-        setLoading(false);
+        const userInfo = { email: currentUser.email };
+        axios.post("http://localhost:3000/jwt", userInfo)
+        .then((response) => {
+          //console.log(response.data.token);
+          if (response.data.token) {
+            localStorage.setItem("access-token", response.data.token);
+          }
+        });
       } else {
-        setUser(null);
-        setLoading(false);
+        // console.log("no user");
+        localStorage.removeItem("access-token");
       }
+
+      setLoading(false);
+
+      //setUser(null);
+      //setLoading(false);
     });
     return () => {
       return unsubscribe();
