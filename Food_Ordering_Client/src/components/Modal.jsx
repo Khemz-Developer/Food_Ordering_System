@@ -5,6 +5,9 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthProvider";
+import axios from "axios";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAuth from "../hooks/useAuth";
 
 
 const Modal = () => {
@@ -19,20 +22,31 @@ const Modal = () => {
     formState: { errors },
   } = useForm();
 
-  const { signUpWithGmail, loginWithEmail, signUpWithFacebook,signUpWithGithub } = useContext(AuthContext);
+  const { signUpWithGmail, loginWithEmail, signUpWithFacebook,signUpWithGithub } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
 
   //redirecting to homepage or specific page
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-
+ 
+  const axiosPublic = useAxiosPublic();
   // google signin
   const handleLogin = () => {
     signUpWithGmail()
       .then((result) => {
         const user = result.user;
-        alert("Login successfully");
+        const userInfo = {
+          name: result?.user?.displayName,
+          email: result?.user?.email,
+        };
+        axiosPublic.post("/user", userInfo).then((response) => {
+          // console.log(response);
+          alert("SignIn successfully");
+          navigate("/");
+        });
+      
+        //alert("Login successfully");
         document.getElementById("my_modal_5").close();
       })
       .catch((error) => {
@@ -55,17 +69,7 @@ const Modal = () => {
       });
   };
 
-  // const handleGithubLogin = () => {
-  //   signUpWithGithub()
-  //     .then((result) => {
-  //       const user = result.user;
-  //       alert("Login with Github successfully");
-  //       document.getElementById("my_modal_5").close();
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error signing in with Github:", error);
-  //     });
-  // }
+  
   const handleGithubLogin = () => {
     signUpWithGithub()
       .then((result) => {
@@ -91,9 +95,20 @@ const Modal = () => {
     loginWithEmail(email, password)
       .then((result) => {
         const user = result.user;
-        alert("Login successfull");
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+        };
+        axiosPublic.post("/user", userInfo).then(
+          (response) => {
+            // console.log(response);
+            alert("SignIn successfully");
+            navigate(from, { replace: true });
+          });
+        
+       // alert("Login successfully");
         document.getElementById("my_modal_5").close();
-        navigate(from, { replace: true });
+       // navigate(from, { replace: true });
       })
       .catch((error) => {
         const errorMessage = error.message;

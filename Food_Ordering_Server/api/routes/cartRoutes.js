@@ -3,8 +3,9 @@ const cartController = require('../controllers/cartController'); // Import the c
 
 const router = express.Router();
 const Carts = require('../models/Carts');
+const verifyToken = require('../middleware/verifyToken');
 
-router.get('/:email', cartController.getAllCartItemsByEmail); // get all cart items operation)
+router.get('/:email',verifyToken, cartController.getAllCartItemsByEmail); // get all cart items operation)
 router.post('/', cartController.postCartItems); // post our cart items to database
 router.delete('/:id', cartController.deleteCartItems); // delete a cart items
 router.put('/:id', cartController.updateCartItems); // update cart items
