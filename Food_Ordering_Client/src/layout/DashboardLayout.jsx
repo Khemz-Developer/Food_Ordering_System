@@ -140,6 +140,8 @@ import { AiOutlineUser } from "react-icons/ai";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaLocationArrow, FaRegQuestionCircle } from "react-icons/fa";
 import Signup from "../components/Signup";
+import useAdmin from "../hooks/useAdmin";
+import useAuth from "../hooks/useAuth";
 
 const sharedLinks = (
   <>
@@ -171,7 +173,8 @@ const sharedLinks = (
 );
 
 const DashboardLayout = () => {
-  const isAdmin = true;
+  const {loading} = useAuth();
+  const [isAdmin,isAdminLoading] = useAdmin();
   return (
    
     <div>
