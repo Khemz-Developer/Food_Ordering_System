@@ -1,4 +1,5 @@
 const mongoose = require("mongoose"); // import mongoose
+const { create } = require("./User");
 const Schema = mongoose.Schema; // import Schema from mongoose
 
 const menuSchema = new Schema({
@@ -12,6 +13,10 @@ const menuSchema = new Schema({
     image:String,
     category:String,
     price:Number,
+    createdAt:{
+        type: Date,
+        default: Date.now
+    } //this is used to store the date the menu item was created, so it helps to render in frontend by newly added item first
 
     })
 

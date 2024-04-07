@@ -9,6 +9,20 @@ const getAllMenuItems = async (req, res) => {
     }
 };
 
+// post a new menu item
+const createMenuItem = async (req, res) => {
+
+    const newMenuItem = req.body;
+
+    try{
+        const result = await Menu.create(newMenuItem);
+        res.status(200).json(result);
+    }catch(error){
+        res.status(500).json({message: error.message});
+    }
+};
+
 module.exports ={
-    getAllMenuItems
+    getAllMenuItems,
+    createMenuItem
 }

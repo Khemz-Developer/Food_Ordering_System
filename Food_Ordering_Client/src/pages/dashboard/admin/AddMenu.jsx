@@ -1,12 +1,54 @@
 import { ImSpoonKnife } from "react-icons/im";
 import { useForm } from "react-hook-form";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from 'sweetalert2'
 
 const AddMenu = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit ,reset} = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  }
+  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
+  
+  //image_hosting_key
+  const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
+  const onSubmit = async (data) => {
+    // console.log(data)
+    const imageFile = { image: data.image[0] };
+    const hostingImg = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    // console.log(hostingImg.data)
+    if (hostingImg.data.success) {
+      const menuItem = {
+        name: data.name,
+        category: data.category,
+        price: parseFloat(data.price), 
+        recipe: data.recipe,
+        image: hostingImg.data.data.display_url
+      };
+
+      // console.log(menuItem);
+      const postMenuItem = axiosSecure.post('/menu', menuItem);
+      if(postMenuItem){
+        reset()
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your Item is inserted successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    }
+  };
+
+
+  
 
   return (
     <div className="w-full md:w-[870px] px-4 mx-auto">
@@ -38,8 +80,11 @@ const AddMenu = () => {
               <label className="label">
                 <span className="label-text">Category*</span>
               </label>
-              <select {...register("category", { required: true })} className="select select-bordered" >
-                <option disabled value="default" >
+              <select
+                {...register("category", { required: true })}
+                className="select select-bordered"
+              >
+                <option disabled value="default">
                   Select a Category
                 </option>
                 <option value="salad">Salad</option>
@@ -98,3 +143,4 @@ const AddMenu = () => {
 };
 
 export default AddMenu;
+
