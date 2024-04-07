@@ -236,7 +236,7 @@ const DashboardLayout = () => {
              </Link>
            </li>
            <li>
-             <Link to="/dashboard">
+             <Link to="/dashboard/add-menu">
                <BiSolidFoodMenu />
                Add Menu
              </Link>
@@ -259,7 +259,7 @@ const DashboardLayout = () => {
            {sharedLinks}
          </ul>
        </div>
-     </div> : <Signup/> 
+     </div> : (loading ? <Signup/> : <div className="flex items-center justify-center h-screen"><Link to="/"><button className="text-white btn bg-green">Back to Home</button></Link></div>) 
      }
     </div>
    

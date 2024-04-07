@@ -10,6 +10,7 @@ import Modal from "../components/Modal";
 import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/dashboard/admin/Dashboard";
 import User from "../pages/dashboard/admin/User";
+import AddMenu from "../pages/dashboard/admin/AddMenu";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
         {
           path:"users",
           element:<User/>
+        },
+        {
+          path:"add-menu",
+          element:<AddMenu/>
         }
       ]
     }
