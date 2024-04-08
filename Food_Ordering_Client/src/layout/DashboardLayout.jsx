@@ -242,7 +242,7 @@ const DashboardLayout = () => {
              </Link>
            </li>
            <li>
-             <Link to="/dashboard">
+             <Link to="/dashboard/manage-item">
                <TbSitemap />
                Manage Items
              </Link>

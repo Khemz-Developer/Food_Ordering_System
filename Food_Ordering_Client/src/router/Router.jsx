@@ -11,6 +11,9 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/dashboard/admin/Dashboard";
 import User from "../pages/dashboard/admin/User";
 import AddMenu from "../pages/dashboard/admin/AddMenu";
+import ManageItem from "../pages/dashboard/admin/ManageItem";
+import UpdateMenuItem from "../pages/dashboard/admin/UpdateMenuItem";
+import axios from "axios";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -56,6 +59,16 @@ const router = createBrowserRouter([
         {
           path:"add-menu",
           element:<AddMenu/>
+        },
+        {
+          path:"manage-item",
+          element:<ManageItem/>
+        },
+        {
+          path: "update-menu/:id",
+          element: <UpdateMenuItem />,
+          //loader: ({ params }) => axios.get(`http://localhost:3000/menu/${params.id}`)
+         loader: ({params}) => fetch(`http://localhost:3000/menu/${params.id}`)
         }
       ]
     }
