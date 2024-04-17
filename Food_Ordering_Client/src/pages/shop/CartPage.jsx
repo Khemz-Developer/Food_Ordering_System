@@ -236,9 +236,11 @@ const CartPage = () => {
             <h3 className="font-medium">Shopping Details</h3>
             <p>Total Items :{cart.length}</p>
             <p>Total Price :${calculateTotalPrice().toFixed(2)}</p>
-            <button className="text-white btn bg-green">
+            <Link to="/process-checkout">
+            <button className="mt-2 text-white btn bg-green">
               Proceed Checkout
             </button>
+            </Link>
           </div>
         </div>
       </div>

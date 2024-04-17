@@ -14,6 +14,8 @@ import AddMenu from "../pages/dashboard/admin/AddMenu";
 import ManageItem from "../pages/dashboard/admin/ManageItem";
 import UpdateMenuItem from "../pages/dashboard/admin/UpdateMenuItem";
 import axios from "axios";
+import Payment from "../pages/shop/Payment";
+import Order from "../pages/shop/Order";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
         {
           path:"/cart-page",
           element:<PrivateRouter><CartPage/></PrivateRouter>
+        },
+        {
+          path : "process-checkout",
+          element:<Payment/>
+        },
+        {
+          path:"/order",
+          element:<Order/>
         }
       ] 
     },
@@ -44,7 +54,9 @@ const router = createBrowserRouter([
     {
       path:"/login",
       element:<Modal/>
-    },{
+    },
+    // admin routes
+    {
       path:"/dashboard",
       element:<PrivateRouter><DashboardLayout/></PrivateRouter>,
       children:[
