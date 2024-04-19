@@ -16,6 +16,7 @@ import UpdateMenuItem from "../pages/dashboard/admin/UpdateMenuItem";
 import axios from "axios";
 import Payment from "../pages/shop/Payment";
 import Order from "../pages/shop/Order";
+import ManageOrder from "../pages/dashboard/admin/ManageOrder";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
           element: <UpdateMenuItem />,
           //loader: ({ params }) => axios.get(`http://localhost:3000/menu/${params.id}`)
          loader: ({params}) => fetch(`http://localhost:3000/menu/${params.id}`)
+        },
+        {
+          path:"update-order-status",
+          element:<ManageOrder/>
         }
       ]
     }

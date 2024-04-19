@@ -223,14 +223,14 @@ const DashboardLayout = () => {
 
            <hr className="border-2" />
 
-           <li>
+           <li className="mt-2">
              <Link to="/dashboard">
                <BiSolidDashboard />
                Dashboard
              </Link>
            </li>
            <li>
-             <Link to="/dashboard">
+             <Link to="/dashboard/update-order-status">
                <BiSolidShoppingBag />
                Manage Bookings
              </Link>

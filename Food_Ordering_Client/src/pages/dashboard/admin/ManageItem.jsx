@@ -1,42 +1,49 @@
-
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import useMenu from "../../../hooks/useMenu";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
+
+import { useState } from "react";
 const ManageItem = () => {
-    const [menu, loading, refetch] = useMenu();
+  const [menu, loading, refetch] = useMenu();
 
   const axiosSecure = useAxiosSecure();
-  //const axiosPublic = useAxiosPublic();
+ 
   console.log(menu);
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
+
   const handleDeleteItem = async (item) => {
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(async(result) => {
-        if (result.isConfirmed) {
-          const res =await  axiosSecure.delete(`/menu/${item._id}`);
-          
-          if(res.status === 200){
-            Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-              });
-          }
-          
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.delete(`/menu/${item._id}`);
+
+        if (res.status === 200) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
         }
-        refetch();
-      });
-  }
-  
+      }
+      refetch();
+    });
+  };
+  //pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = menu.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div className="w-full md:w-[870px] px-4 mx-auto">
       <h2 className="my-4 text-2xl font-semibold">
@@ -46,7 +53,7 @@ const ManageItem = () => {
       {/** Table */}
       <div>
         <div className="overflow-x-auto">
-          <table className="table">
+          <table className="table mx-auto mt-5">
             {/* head */}
             <thead>
               <tr>
@@ -59,7 +66,7 @@ const ManageItem = () => {
               </tr>
             </thead>
             <tbody>
-              {menu.map((item, index) => (
+              {currentItems.map((item, index) => (
                 <tr key={index}>
                   <th>{index + 1}</th>
                   <td>
@@ -88,12 +95,29 @@ const ManageItem = () => {
                       <FaTrashAlt />
                     </button>
                   </td>
-                  
                 </tr>
               ))}
               {/* row 1 */}
             </tbody>
           </table>
+        </div>
+        {/*pagination section*/}
+        <div className="flex justify-center mt-5">
+          {Array.from({
+            length: Math.ceil(menu.length / itemsPerPage),
+          }).map((_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => paginate(index + 1)}
+              className={`py-1 px-4 mx-1 rounded-full ${
+                currentPage === index + 1
+                  ? "bg-green text-white"
+                  : "bg-grey-200"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
     </div>

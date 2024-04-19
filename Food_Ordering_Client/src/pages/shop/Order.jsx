@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const Order = () => {
   const { user } = useAuth();
   const token = localStorage.getItem("access-token");
+  
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
+
   const { refetch, data: orders = [] } = useQuery({
     queryKey: ["orders", user?.email],
     queryFn: async () => {
@@ -14,15 +21,23 @@ const Order = () => {
         },
       });
       //const res = await fetch(`http://localhost:3000/cart?email=${user?.email}`);
+      
       return res.json();
     },
   });
 
-  const formatedDate = (createdAt)=>{
-    const createdAtDate = new Date(createdAt)
+  const formatedDate = (createdAt) => {
+    const createdAtDate = new Date(createdAt);
     return createdAtDate.toLocaleDateString();
-  }
+  };
   console.log(orders);
+
+  //pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <div className="bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
@@ -59,7 +74,7 @@ const Order = () => {
                   </thead>
                   <tbody>
                     {/* row 1 */}
-                    {orders.map((item, index) => (
+                    {currentItems.map((item, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{formatedDate(item.createdAt)}</td>
@@ -78,10 +93,28 @@ const Order = () => {
                   </tbody>
                 </table>
               </div>
+              {/*pagination section*/}
+              <div className="flex justify-center mt-5">
+                {Array.from({
+                  length: Math.ceil(orders.length / itemsPerPage),
+                }).map((_, index) => (
+                  <button
+                    key={index + 1}
+                    onClick={() => paginate(index + 1)}
+                    className={`py-1 px-4 mx-1 rounded-full ${
+                      currentPage === index + 1
+                        ? "bg-green text-white"
+                        : "bg-grey-200"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="mt-20 text-center">
-              <p>Cart is empty. Please add products.</p>
+              <p>Nothing You have Ordered. Please Buy Some Products!.</p>
               <Link to="/menu">
                 <button className="mt-3 text-white btn bg-green">
                   Back to Menu

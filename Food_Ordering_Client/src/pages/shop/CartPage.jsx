@@ -10,6 +10,7 @@ const CartPage = () => {
   const [cart, refetch] = useCart();
   const { user } = useContext(AuthContext);
   const [cartItems, setCartItems] = useState([]);
+  console.log(cartItems);
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -65,6 +66,7 @@ const CartPage = () => {
               quantity: cartItem.quantity + 1,
             };
           }
+          console.log(cartItem);
           return cartItem;
         });
         refetch();

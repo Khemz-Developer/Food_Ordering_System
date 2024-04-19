@@ -41,6 +41,11 @@ const Navbar = () => {
         </a>
       </li>
       <li>
+        <a className="text-black" href="/menu">
+          Menu
+        </a>
+      </li>
+      {/* <li>
         <details>
           <summary>Menu</summary>
           <ul className="p-2">
@@ -55,25 +60,25 @@ const Navbar = () => {
             </li>
           </ul>
         </details>
-      </li>
+      </li> */}
       <li>
         <details>
           <summary>Services</summary>
           <ul className="p-2">
             <li>
-              <a>Online Order</a>
+              <a href="/order">Order Tracking</a>
             </li>
             <li>
               <a>Table Booking</a>
             </li>
             <li>
-              <a>Order Tracking</a>
+              <a>Online Order</a>
             </li>
           </ul>
         </details>
       </li>
       <li>
-        <a>Offers</a>
+        <a>About Us</a>
       </li>
     </>
   );

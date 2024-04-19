@@ -1,11 +1,15 @@
 const express = require("express");
-
 const router = express.Router();
+
+const paymentController = require("../controllers/paymentController");
 
 const Payment = require("../models/Payments");
 const Cart = require("../models/Carts");
 const ObjectId = require("mongoose").Types.ObjectId; // import ObjectId from mongoose
+
 const verifyToken = require("../middleware/verifyToken");
+const verifyAdmin = require('../middleware/verifyAdmin');
+
 
 router.post("/", verifyToken, async (req, res) => {
   const payment = req.body;
@@ -39,5 +43,20 @@ router.get('/:email',verifyToken,async (req,res)=>{
     res.status(500).json({message:error.message})
   }
 })
+
+
+
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const payments = await Payment.find();
+    res.status(200).json(payments);
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+})
+
+router.patch("/accept/:id", verifyToken, paymentController.acceptOrder);
+router.patch("/reject/:id", verifyToken, paymentController.rejectOrder);
 
 module.exports = router; // export the router

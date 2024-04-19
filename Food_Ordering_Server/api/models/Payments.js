@@ -11,7 +11,11 @@ const paymentSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    status: String,
+    status: {
+        type: String,
+        default: "Order Pending",
+        enum: ["Order Pending", "Success", "Failed"]
+    },
     menuItems:Array,
     itemName:Array,
     cartItems:Array,
