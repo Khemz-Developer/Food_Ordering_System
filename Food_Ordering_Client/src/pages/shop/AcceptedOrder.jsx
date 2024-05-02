@@ -3,10 +3,9 @@ import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-const Order = () => {
+const AcceptedOrder = () => {
   const { user } = useAuth();
   const token = localStorage.getItem("access-token");
-  
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,13 +14,13 @@ const Order = () => {
   const { refetch, data: orders = [] } = useQuery({
     queryKey: ["orders", user?.email],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:3000/payment/pending-orders/${user?.email}`, {
+      const res = await fetch(`http://localhost:3000/payment/accepted-orders/${user?.email}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
       });
       //const res = await fetch(`http://localhost:3000/cart?email=${user?.email}`);
-      
+
       return res.json();
     },
   });
@@ -43,11 +42,13 @@ const Order = () => {
       <div className="bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
         <div className="container mx-auto bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
           <div className="bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
-            <div className="flex flex-col items-center justify-center py-28">
+            <div className="flex flex-col items-center justify-center py-20">
               <div className="text-center">
                 <h2 className="text-4xl font-bold md:text-4xl">
-                  Track All Your <span className="text-green">Orders!</span>
+                  Accepted <span className="text-green">Orders!</span>
                 </h2>
+                <h2 className="m-5 text-3xl font-bold text-green">Notice</h2>
+                <h2 className="mt-5 font-medium text-1xl" style={{ fontFamily: 'Arial, sans-serif' }}>Once your payment is successfully processed, your order status will show as <span className="text-red">'Success'</span>. When the shop delivers your product, the status will change to <span className="text-red">'Delivered'</span> !</h2>
               </div>
             </div>
           </div>
@@ -68,7 +69,7 @@ const Order = () => {
                       <th>TransitionId</th>
                       <th>Price</th>
                       <th>Status</th>
-                      <th>Action</th>
+                    
                       <th></th>
                     </tr>
                   </thead>
@@ -80,14 +81,8 @@ const Order = () => {
                         <td>{formatedDate(item.createdAt)}</td>
                         <td className="font-medium">{item.transitionId}</td>
                         <td>${item.price}</td>
-                        <td>{item.status}</td>
-                        <th>
-                          <Link to="/contact">
-                            <button className="mt-3 text-green btn-sm ">
-                              Contact
-                            </button>
-                          </Link>
-                        </th>
+                        <td>{item.status} </td>
+                        
                       </tr>
                     ))}
                   </tbody>
@@ -114,7 +109,7 @@ const Order = () => {
             </div>
           ) : (
             <div className="mt-20 text-center">
-              <p>Nothing You have Ordered. Please Buy Some Products!.</p>
+              <p>Nothing Have Accepted !. Please Buy Some Products!.</p>
               <Link to="/menu">
                 <button className="mt-3 text-white btn bg-green">
                   Back to Menu
@@ -128,4 +123,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default AcceptedOrder;

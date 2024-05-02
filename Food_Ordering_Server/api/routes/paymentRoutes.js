@@ -1,15 +1,19 @@
 const express = require("express");
-
 const router = express.Router();
+
+const paymentController = require("../controllers/paymentController");
 
 const Payment = require("../models/Payments");
 const Cart = require("../models/Carts");
 const ObjectId = require("mongoose").Types.ObjectId; // import ObjectId from mongoose
+
 const verifyToken = require("../middleware/verifyToken");
+const verifyAdmin = require('../middleware/verifyAdmin');
+
 
 router.post("/", verifyToken, async (req, res) => {
   const payment = req.body;
-  console.log(payment);
+  //console.log(payment);
   try {
     const paymentRequest = await Payment.create(payment);
 
@@ -24,20 +28,16 @@ router.post("/", verifyToken, async (req, res) => {
   }
 }); 
 
-router.get('/:email',verifyToken,async (req,res)=>{
-  const email = req.params.email;
-  const query = {email:email};
-  try{
-    const decodedEmail = req.decoded.email;
-    if(email !== decodedEmail){
-      res.status(403).json({message:"Forbiden Access"})
-    }
-    const result = await Payment.find(query).sort({createdAt:-1}).exec();
-    res.status(200).json(result);
-
-  }catch(error){
-    res.status(500).json({message:error.message})
-  }
-})
+//get all orders according to email
+//router.get('/:email', verifyToken, paymentController.getOrdersByEmail);
+router.get('/pending-orders/:email', verifyToken, paymentController.getPendingOrders);
+router.get('/accepted-orders/:email', verifyToken, paymentController.getAcceptedOrdersByEmail);
+router.get('/rejected-orders/:email', verifyToken, paymentController.getRejectedOrdersByEmail);
+router.get("/", verifyToken,paymentController.getPendingOrders);
+router.patch("/accept/:id", verifyToken, paymentController.acceptOrder);
+router.patch("/reject/:id", verifyToken, paymentController.rejectOrder);
+router.patch("/update/:email", verifyToken, paymentController.updateOrder);
+router.get("/all-accepted-orders", verifyToken, paymentController.getAcceptedOrders);
+router.patch("/comfirm-delivery/:id", verifyToken, paymentController.deliveredOrder);
 
 module.exports = router; // export the router

@@ -1,53 +1,38 @@
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import useMenu from "../../../hooks/useMenu";
+import {  FaEye } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-
 import { useState } from "react";
-const ManageItem = () => {
-  const [menu, loading, refetch] = useMenu();
+import useAcceptedOrders from "../../../hooks/useAcceptedOrders";
+import { FaCheckCircle } from "react-icons/fa";
+const OrderTracking = () => {
+  const [accepted, loading, refetch] = useAcceptedOrders();
 
   const axiosSecure = useAxiosSecure();
- 
-  console.log(menu);
+
+  console.log(accepted);
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
 
-  const handleDeleteItem = async (item) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await axiosSecure.delete(`/menu/${item._id}`);
-
-        if (res.status === 200) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-        }
-      }
-      refetch();
-    });
+  const handleComfirmDelivery = async (item) => {
+    await axiosSecure
+      .patch(`/payment/comfirm-delivery/${item._id}`)
+      .then(() => {
+        Swal.fire("Order Delivery Comfirmed", "", "success");
+      });
+    refetch();
   };
   //pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = menu.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = accepted.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div className="w-full md:w-[870px] px-4 mx-auto">
       <h2 className="my-4 text-2xl font-semibold">
-        Manage All <span className="text-green">Menu Items</span>
+        Confirming Delivery of <span className="text-green">Orders !</span>
       </h2>
 
       {/** Table */}
@@ -58,41 +43,34 @@ const ManageItem = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Prices</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Transaction Id</th>
+                <th>Name of the Customer</th>
+                <th>Amount</th>
+                <th>Check Address</th>
+                <th>Comfirm Delivery</th>
               </tr>
             </thead>
             <tbody>
               {currentItems.map((item, index) => (
                 <tr key={index}>
                   <th>{index + 1}</th>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="w-12 h-12 mask mask-squircle">
-                          <img src={item.image} alt="" />
-                        </div>
-                      </div>
-                    </div>
-                  </td>
+                  <td>{item.transitionId}</td>
                   <td>{item.name}</td>
                   <td>${item.price}</td>
                   <td>
                     <Link to={`/dashboard/update-menu/${item._id}`}>
-                      <button className="text-white bg-orange-500 btn btn-ghost btn-xs">
-                        <FaEdit />
+                      <button className="mx-5 text-white bg-yellow-300 btn btn-ghost btn-xs">
+                        <FaEye />
                       </button>
                     </Link>
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDeleteItem(item)}
+                      onClick={() => handleComfirmDelivery(item)}
                       className="btn btn-ghost btn-xs text-red"
                     >
-                      <FaTrashAlt />
+                      <FaCheckCircle />
+                      Comfirm?
                     </button>
                   </td>
                 </tr>
@@ -104,7 +82,7 @@ const ManageItem = () => {
         {/*pagination section*/}
         <div className="flex justify-center mt-5">
           {Array.from({
-            length: Math.ceil(menu.length / itemsPerPage),
+            length: Math.ceil(accepted.length / itemsPerPage),
           }).map((_, index) => (
             <button
               key={index + 1}
@@ -124,4 +102,5 @@ const ManageItem = () => {
   );
 };
 
-export default ManageItem;
+export default OrderTracking;
+

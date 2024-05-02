@@ -4,6 +4,18 @@ const mongoose = require("mongoose"); // import mongoose
 const Schema = mongoose.Schema; // import Schema from mongoose
 
 const paymentSchema = new Schema({
+    name: {
+        type:String,
+        default:""
+    },
+    address: {
+        type:String,
+        default:""
+    },
+    postalCode: {
+        type:Number,
+        default:""
+    },
     transitionId: String,
     email: String,
     price: Number,
@@ -11,7 +23,11 @@ const paymentSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    status: String,
+    status: {
+        type: String,
+        default: "Order Pending",
+        enum: ["Order Pending", "Success", "Failed","Delivered"]
+    },
     menuItems:Array,
     itemName:Array,
     cartItems:Array,

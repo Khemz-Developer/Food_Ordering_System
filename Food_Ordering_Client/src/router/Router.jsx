@@ -16,6 +16,12 @@ import UpdateMenuItem from "../pages/dashboard/admin/UpdateMenuItem";
 import axios from "axios";
 import Payment from "../pages/shop/Payment";
 import Order from "../pages/shop/Order";
+import ManageOrder from "../pages/dashboard/admin/ManageOrder";
+import AcceptedOrder from "../pages/shop/AcceptedOrder";
+import RejectedOrders from "../pages/shop/RejectedOrders";
+import About from "../components/About";
+import Address from "../pages/shop/Address";
+import OrderTracking from "../pages/dashboard/admin/OrderTracking";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -44,6 +50,22 @@ const router = createBrowserRouter([
         {
           path:"/order",
           element:<Order/>
+        },
+        {
+          path:"/accepted-orders",
+          element:<AcceptedOrder/>
+        },
+        {
+          path:"/rejected-orders",
+          element:<RejectedOrders/>
+        },
+        {
+          path:"/about",
+          element:<About/>
+        },
+        {
+          path:"/address",
+          element:<Address/>
         }
       ] 
     },
@@ -81,6 +103,14 @@ const router = createBrowserRouter([
           element: <UpdateMenuItem />,
           //loader: ({ params }) => axios.get(`http://localhost:3000/menu/${params.id}`)
          loader: ({params}) => fetch(`http://localhost:3000/menu/${params.id}`)
+        },
+        {
+          path:"update-order-status",
+          element:<ManageOrder/>
+        },
+        {
+          path:"order-tracking",
+          element:<OrderTracking/>
         }
       ]
     }

@@ -1,4 +1,4 @@
-import  { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import logo from "/logo.png";
 // import mylogo from "/MyLogo.png";
 // import { BiPhoneCall } from "react-icons/bi";
@@ -11,9 +11,9 @@ import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
- const[cart,refetch] = useCart() ;
-  // auth context 
-  const {user} = useAuth();
+  const [cart, refetch] = useCart();
+  // auth context
+  const { user } = useAuth();
   console.log(user);
 
   useEffect(() => {
@@ -41,6 +41,11 @@ const Navbar = () => {
         </a>
       </li>
       <li>
+        <a className="text-black" href="/menu">
+          Menu
+        </a>
+      </li>
+      {/* <li>
         <details>
           <summary>Menu</summary>
           <ul className="p-2">
@@ -55,25 +60,25 @@ const Navbar = () => {
             </li>
           </ul>
         </details>
-      </li>
+      </li> */}
       <li>
         <details>
-          <summary>Services</summary>
+          <summary>Orders</summary>
           <ul className="p-2">
             <li>
-              <a>Online Order</a>
+              <a href="/order">Pending Orders</a>
             </li>
             <li>
-              <a>Table Booking</a>
+              <a href="/accepted-orders">Accepted Orders</a>
             </li>
             <li>
-              <a>Order Tracking</a>
+              <a href="/rejected-orders">Rejected Orders</a>
             </li>
           </ul>
         </details>
       </li>
       <li>
-        <a>Offers</a>
+        <a href="/about">About Us</a>
       </li>
     </>
   );
@@ -143,41 +148,45 @@ const Navbar = () => {
 
           {/*cart items*/}
           <Link to="/cart-page">
-          <div
-            tabIndex={0}
-            role="button"
-            className="items-center justify-center hidden mr-3 lg:flex btn btn-ghost btn-circle"
-          >
-            <div className="indicator">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              <span className="badge badge-sm indicator-item">{cart.length}</span>
+            <div
+              tabIndex={0}
+              role="button"
+              className="items-center justify-center hidden mr-3 lg:flex btn btn-ghost btn-circle"
+            >
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                <span className="badge badge-sm indicator-item">
+                  {cart.length}
+                </span>
+              </div>
             </div>
-          </div>
           </Link>
           {/*login btn */}
-          {
-            user? <Profile user={user}/> : <button
-            onClick={() => document.getElementById("my_modal_5").showModal()}
-            className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green"
-          >
-            <FaRegUser />
-            Login
-          </button>
-          }
-          <Modal/>
+          {user ? (
+            <Profile user={user} />
+          ) : (
+            <button
+              onClick={() => document.getElementById("my_modal_5").showModal()}
+              className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green"
+            >
+              <FaRegUser />
+              Login
+            </button>
+          )}
+          <Modal />
         </div>
       </div>
     </header>
