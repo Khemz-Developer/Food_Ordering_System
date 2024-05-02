@@ -17,6 +17,9 @@ import axios from "axios";
 import Payment from "../pages/shop/Payment";
 import Order from "../pages/shop/Order";
 import ManageOrder from "../pages/dashboard/admin/ManageOrder";
+import AcceptedOrder from "../pages/shop/AcceptedOrder";
+import RejectedOrders from "../pages/shop/RejectedOrders";
+import About from "../components/About";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -45,6 +48,18 @@ const router = createBrowserRouter([
         {
           path:"/order",
           element:<Order/>
+        },
+        {
+          path:"/accepted-orders",
+          element:<AcceptedOrder/>
+        },
+        {
+          path:"/rejected-orders",
+          element:<RejectedOrders/>
+        },
+        {
+          path:"/about",
+          element:<About/>
         }
       ] 
     },

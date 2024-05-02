@@ -1,9 +1,58 @@
 const User = require("../models/User");
+const Payment = require("../models/Payments");
+
+// count price of all  success orders
+const countPrice = async (req, res) => {
+  try {
+    const payments = await Payment.find({ status: "Success"});
+    let total = 0;
+    payments.map((payment) => {
+      total += payment.price;
+    });
+    res.status(200).json(total);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// count price of all pending orders
+const countPendingPrice = async (req, res) => {
+  try {
+    const payments = await Payment.find({ status: "Order Pending"});
+    let total = 0;
+    payments.map((payment) => {
+      total += payment.price;
+    });
+    res.status(200).json(total);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 // get all users by email
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//get all users count
+const getUsersCount = async (req, res) => {
+  try {
+    const users = await User.find({ role: "user" }).countDocuments();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//get all user count which role is Admin
+const getAdminCount = async (req, res) => {
+  try {
+    const users = await User.find({ role: "admin" }).countDocuments();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -84,5 +133,9 @@ module.exports = {
   createUser,
   deleteUser,
   getAdmin,
-  makeAdmin
+  makeAdmin,
+  getUsersCount,
+  getAdminCount,
+  countPrice,
+  countPendingPrice
 };

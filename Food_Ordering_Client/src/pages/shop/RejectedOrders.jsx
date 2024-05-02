@@ -3,10 +3,9 @@ import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-const Order = () => {
+const RejectedOrders = () => {
   const { user } = useAuth();
   const token = localStorage.getItem("access-token");
-  
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,13 +14,13 @@ const Order = () => {
   const { refetch, data: orders = [] } = useQuery({
     queryKey: ["orders", user?.email],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:3000/payment/pending-orders/${user?.email}`, {
+      const res = await fetch(`http://localhost:3000/payment/rejected-orders/${user?.email}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
       });
       //const res = await fetch(`http://localhost:3000/cart?email=${user?.email}`);
-      
+
       return res.json();
     },
   });
@@ -46,7 +45,7 @@ const Order = () => {
             <div className="flex flex-col items-center justify-center py-28">
               <div className="text-center">
                 <h2 className="text-4xl font-bold md:text-4xl">
-                  Track All Your <span className="text-green">Orders!</span>
+                  Rejected <span className="text-green">Orders!</span>
                 </h2>
               </div>
             </div>
@@ -114,7 +113,7 @@ const Order = () => {
             </div>
           ) : (
             <div className="mt-20 text-center">
-              <p>Nothing You have Ordered. Please Buy Some Products!.</p>
+              <p>Nothing Have Rejected !</p>
               <Link to="/menu">
                 <button className="mt-3 text-white btn bg-green">
                   Back to Menu
@@ -128,4 +127,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default RejectedOrders;

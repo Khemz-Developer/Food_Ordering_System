@@ -28,35 +28,14 @@ router.post("/", verifyToken, async (req, res) => {
   }
 }); 
 
-router.get('/:email',verifyToken,async (req,res)=>{
-  const email = req.params.email;
-  const query = {email:email};
-  try{
-    const decodedEmail = req.decoded.email;
-    if(email !== decodedEmail){
-      res.status(403).json({message:"Forbiden Access"})
-    }
-    const result = await Payment.find(query).sort({createdAt:-1}).exec();
-    res.status(200).json(result);
-
-  }catch(error){
-    res.status(500).json({message:error.message})
-  }
-})
-
-
-
-router.get("/", verifyToken, async (req, res) => {
-  try {
-    const payments = await Payment.find();
-    res.status(200).json(payments);
-    
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-})
-
+//get all orders according to email
+router.get('/:email', verifyToken, paymentController.getOrdersByEmail);
+router.get('/pending-orders/:email', verifyToken, paymentController.getPendingOrders);
+router.get('/accepted-orders/:email', verifyToken, paymentController.getAcceptedOrdersByEmail);
+router.get('/rejected-orders/:email', verifyToken, paymentController.getRejectedOrdersByEmail);
+router.get("/", verifyToken,paymentController.getPendingOrders);
 router.patch("/accept/:id", verifyToken, paymentController.acceptOrder);
 router.patch("/reject/:id", verifyToken, paymentController.rejectOrder);
+
 
 module.exports = router; // export the router

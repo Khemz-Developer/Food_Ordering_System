@@ -50,7 +50,7 @@ const Profile = ({ user }) => {
               <a href="/order">Order</a>
             </li>
             <li>
-              <a>Settings</a>
+              <a>Shipping Address</a>
             </li>
             <li>
               <Link to="/dashboard">Dashboard</Link>

@@ -1,4 +1,4 @@
-import  { useContext, useEffect, useState } from "react";
+import  {  useEffect, useState } from "react";
 // import logo from "/logo.png";
 // import mylogo from "/MyLogo.png";
 // import { BiPhoneCall } from "react-icons/bi";
@@ -63,22 +63,22 @@ const Navbar = () => {
       </li> */}
       <li>
         <details>
-          <summary>Services</summary>
+          <summary>Orders</summary>
           <ul className="p-2">
             <li>
-              <a href="/order">Order Tracking</a>
+              <a href="/order">Pending Orders</a>
             </li>
             <li>
-              <a>Table Booking</a>
+              <a href="/accepted-orders">Accepted Orders</a>
             </li>
             <li>
-              <a>Online Order</a>
+              <a href="/rejected-orders">Rejected Orders</a>
             </li>
           </ul>
         </details>
       </li>
       <li>
-        <a>About Us</a>
+        <a href="/about">About Us</a>
       </li>
     </>
   );
