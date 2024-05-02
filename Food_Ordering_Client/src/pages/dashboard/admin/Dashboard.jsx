@@ -1,5 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { FaUserCog } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { FaMoneyBillWave } from "react-icons/fa";
+
 
 const Dashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -9,17 +14,15 @@ const Dashboard = () => {
     queryFn: async () => {
       const res = await axiosSecure.get(`/user/user-count`);
       return res.data;
-      
     },
   });
 
   // Total Admin count
-  const {  data: admincount } = useQuery({
+  const { data: admincount } = useQuery({
     queryKey: ["admincount"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/user/admin-count`);
       return res.data;
-      
     },
   });
 
@@ -33,35 +36,70 @@ const Dashboard = () => {
   });
 
   //Total Pending Clearence
-  const { data: pendingclearence } = useQuery({ 
+  const { data: pendingclearence } = useQuery({
     queryKey: ["pendingclearence"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/user/admin-pending-earnings`);
       return res.data;
     },
-  });  
-  
+  });
 
   return (
     <div>
-      <div className="w-full">
-        <div className="flex flex-col w-full lg:flex-row ">
-          <div className="grid flex-grow h-32 px-24 card bg-base-300 rounded-box place-items-center">
-            {/* Total Users : {users} */}
-            Total Users : {userscount}
+      <div className="my-2" >
+        <h2 className="px-2 font-semibold text-start text-dark">Admin DashBooard</h2>
+      </div>
+
+      <div className="flex gap-2 mt-5 lg:flex-row">
+        <div className="px-5 py-6 text-center transition-all duration-300 bg-white rounded-md shadow-md cursor-pointer w-72 hover:-translate-y-4">
+          <div className="flex items-center justify-center w-full mx-auto font-medium">
+            <div
+              
+              className="bg-[#C1F1C6] rounded-full w-28 h-28 px-9 py-8"
+            ><FaUser size={40}/></div>
           </div>
-          <div className="divider lg:divider-horizontal"></div>
-          <div className="grid flex-grow h-32 px-24 card bg-base-300 rounded-box place-items-center">
-            {/* Total Admin : {admin} */}
-            Total Admin : {admincount}
+          <div className="mt-5 space-y-1 ">
+            <h5 className="font-semibold font-md text-red">Total Users : {userscount}</h5>
+            
           </div>
-          <div className="divider lg:divider-horizontal"></div>
-          <div className="grid flex-grow h-32 px-24 card bg-base-300 rounded-box place-items-center">
-            Earnings : $ {earnings}
+        </div>
+
+        <div className="px-5 py-6 text-center transition-all duration-300 bg-white rounded-md shadow-md cursor-pointer w-72 hover:-translate-y-4">
+          <div className="flex items-center justify-center w-full mx-auto">
+            <div
+              
+              className="bg-[#C1F1C6] rounded-full w-28 h-28 px-9 py-7 font-medium"
+            ><FaUserCog size={48} /> {/* Increase icon size to 48 pixels */}</div>
           </div>
-          <div className="divider lg:divider-horizontal"></div>
-          <div className="grid flex-grow h-32 px-24 card bg-base-300 rounded-box place-items-center">
-            Pending Clearence : $ {pendingclearence}
+          <div className="mt-5 space-y-1 ">
+            <h5 className="font-semibold text-red">Total Admin : {admincount}</h5>
+            
+          </div>
+        </div>
+
+        <div className="px-5 py-6 text-center transition-all duration-300 bg-white rounded-md shadow-md cursor-pointer w-72 hover:-translate-y-4">
+          <div className="flex items-center justify-center w-full mx-auto">
+            <div
+              
+              className="bg-[#C1F1C6] rounded-full w-28 h-28 px-8 py-7 font-medium"
+            ><FaMoneyBillWave size={48}/></div>
+          </div>
+          <div className="mt-5 space-y-1 ">
+            <h5 className="font-semibold font-md text-red">WithDraw $ :{earnings}</h5>
+            
+          </div>
+        </div>
+
+        <div className="px-5 py-6 text-center transition-all duration-300 bg-white rounded-md shadow-md cursor-pointer w-72 hover:-translate-y-4">
+          <div className="flex items-center justify-center w-full mx-auto">
+            <div
+              
+              className="bg-[#C1F1C6] rounded-full w-28 h-28 px-8 py-7 font-medium"
+            ><AiOutlineClockCircle size={48}/></div>
+          </div>
+          <div className="mt-5 space-y-1 ">
+            <h5 className="font-semibold text-red">Pending Clearence $ :<span className="font-bold text-red">{pendingclearence}</span></h5>
+            
           </div>
         </div>
       </div>

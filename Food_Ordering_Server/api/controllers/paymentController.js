@@ -20,6 +20,26 @@ const acceptOrder = async (req, res) => {
   }
 };
 
+// Delivered Order function
+const deliveredOrder = async (req, res) => {
+  const paymentId = req.params.id;
+  try {
+    const updateOrder = await Payment.findByIdAndUpdate(
+      paymentId,
+      { status: "Delivered" },
+      { new: true, runValidators: true }
+    );
+
+    if (!updateOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json(updateOrder);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Reject Order function
 const rejectOrder = async (req, res) => {
   const paymentId = req.params.id;
@@ -50,21 +70,31 @@ const getPendingOrders = async (req, res) => {
   }
 };
 
-//get all orders according to email
-const getOrdersByEmail = async (req, res) => {
-  const email = req.params.email;
-  const query = { email: email }; // Adding status condition
+// get accepted orders
+const getAcceptedOrders = async (req, res) => {
   try {
-    const decodedEmail = req.decoded.email;
-    if (email !== decodedEmail) {
-      res.status(403).json({ message: "Forbidden Access" });
-    }
-    const result = await Payment.find(query).sort({ createdAt: -1 }).exec();
-    res.status(200).json(result);
+    const payments = await Payment.find({ status: "Success" });
+    res.status(200).json(payments);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+// //get all orders according to email
+// const getOrdersByEmail = async (req, res) => {
+//   const email = req.params.email;
+//   const query = { email: email }; // Adding status condition
+//   try {
+//     const decodedEmail = req.decoded.email;
+//     if (email !== decodedEmail) {
+//       return res.status(403).json({ message: "Forbidden Access" });
+//     }
+//     const result = await Payment.find(query).sort({ createdAt: -1 }).exec();
+//     res.status(200).json(result);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 //get all pending orders according to email
 const getPendingOrdersByEmail = async (req, res) => {
@@ -85,7 +115,7 @@ const getPendingOrdersByEmail = async (req, res) => {
 //get all accepted orders according to email
 const getAcceptedOrdersByEmail = async (req, res) => {
   const email = req.params.email;
-  const query = { email: email, status: "Success" }; // Filter by email and status
+  const query = { email: email, status: { $in: ["Success", "Delivered"] } }; // Filter by email and status
   try {
     const decodedEmail = req.decoded.email;
     if (email !== decodedEmail) {
@@ -114,12 +144,35 @@ const getRejectedOrdersByEmail = async (req, res) => {
   }
 };
 
+//UPDATE THE name, address , postalCode according to the email
+
+const updateOrder = async (req, res) => {
+  const email = req.params.email;
+  const { name, address, postalCode } = req.body;
+  try {
+    const decodedEmail = req.decoded.email;
+    if (email !== decodedEmail) {
+      res.status(403).json({ message: "Forbidden Access" });
+    }
+    const result = await Payment.updateMany(
+      { email: email },
+      { name, address, postalCode }
+    );
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   acceptOrder,
   rejectOrder,
   getPendingOrders,
-  getOrdersByEmail,
+  //getOrdersByEmail,
   getPendingOrdersByEmail,
   getAcceptedOrdersByEmail,
   getRejectedOrdersByEmail,
+  updateOrder,
+  getAcceptedOrders,
+  deliveredOrder
 }; // export the controller

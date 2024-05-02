@@ -32,7 +32,7 @@ useEffect(() => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching payment intent:", error);
+        console.error("Error fetching payment intent:", error); 
       });
   }, [price, axiosSecure]);
   
@@ -110,7 +110,7 @@ useEffect(() => {
         .then((res)=>{
             console.log(res.data);
             alert("Payment successful");
-            navigate('/order');
+            navigate('/address');
         })
     }
   };
@@ -123,7 +123,9 @@ useEffect(() => {
         <h4 className="text-lg font-semibold">Billing Information</h4>
         <p>Total Price: ${price}</p>
         <p>Number of Items: {cart.length}</p>
+       
       </div>
+
       {/*right side */}
       <div className="w-full max-w-sm px-4 py-8 mx-5 space-y-5 shadow-2xl md:w-1/2 card shrink-0 bg-base-100">
         <h4 className="text-lg font-semibold">Process your Payment</h4>

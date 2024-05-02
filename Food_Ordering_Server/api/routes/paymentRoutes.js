@@ -13,7 +13,7 @@ const verifyAdmin = require('../middleware/verifyAdmin');
 
 router.post("/", verifyToken, async (req, res) => {
   const payment = req.body;
-  console.log(payment);
+  //console.log(payment);
   try {
     const paymentRequest = await Payment.create(payment);
 
@@ -29,13 +29,15 @@ router.post("/", verifyToken, async (req, res) => {
 }); 
 
 //get all orders according to email
-router.get('/:email', verifyToken, paymentController.getOrdersByEmail);
+//router.get('/:email', verifyToken, paymentController.getOrdersByEmail);
 router.get('/pending-orders/:email', verifyToken, paymentController.getPendingOrders);
 router.get('/accepted-orders/:email', verifyToken, paymentController.getAcceptedOrdersByEmail);
 router.get('/rejected-orders/:email', verifyToken, paymentController.getRejectedOrdersByEmail);
 router.get("/", verifyToken,paymentController.getPendingOrders);
 router.patch("/accept/:id", verifyToken, paymentController.acceptOrder);
 router.patch("/reject/:id", verifyToken, paymentController.rejectOrder);
-
+router.patch("/update/:email", verifyToken, paymentController.updateOrder);
+router.get("/all-accepted-orders", verifyToken, paymentController.getAcceptedOrders);
+router.patch("/comfirm-delivery/:id", verifyToken, paymentController.deliveredOrder);
 
 module.exports = router; // export the router

@@ -29,7 +29,7 @@ const sharedLinks = (
       </Link>
     </li>
     <li>
-      <Link to="/menu">
+      <Link to="order-tracking">
         <FaLocationArrow />
         Orders Tracking
       </Link>
