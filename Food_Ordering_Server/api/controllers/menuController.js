@@ -8,6 +8,28 @@ const getAllMenuItems = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+ // counting total counts in each category
+
+ const getCountEachCategory = async (req, res) => {
+    try {
+      const categories = await Menu.aggregate([
+        {
+          $group: {
+            _id: "$category",
+            count: { $sum: 1 }
+          }
+        }
+      ]);
+  
+      res.status(200).json(categories);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+
+
+
 
 // post a new menu item
 const createMenuItem = async (req, res) => {
@@ -70,5 +92,6 @@ module.exports ={
     createMenuItem,
     deleteMenuItem,
     getSingleMenuItem,
-    updateMenuItem
+    updateMenuItem,
+    getCountEachCategory
 }

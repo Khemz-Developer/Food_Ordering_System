@@ -1,4 +1,4 @@
-import {  FaEye } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -6,6 +6,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import useAcceptedOrders from "../../../hooks/useAcceptedOrders";
 import { FaCheckCircle } from "react-icons/fa";
+import AddressModal from "./AddressModal";
 const OrderTracking = () => {
   const [accepted, loading, refetch] = useAcceptedOrders();
 
@@ -56,13 +57,18 @@ const OrderTracking = () => {
                   <th>{index + 1}</th>
                   <td>{item.transitionId}</td>
                   <td>{item.name}</td>
-                  <td>${item.price}</td>
+                  <td>$ {item.price}</td>
                   <td>
-                    <Link to={`/dashboard/update-menu/${item._id}`}>
-                      <button className="mx-5 text-white bg-yellow-300 btn btn-ghost btn-xs">
-                        <FaEye />
-                      </button>
-                    </Link>
+                    <button
+                      className="mx-5 text-white bg-yellow-300 btn btn-ghost btn-xs"
+                      onClick={() =>
+                        document.getElementById(`my_modal_${index}`).showModal()
+                      }
+                    >
+                      <FaEye />
+                    </button>
+
+                    <AddressModal item={item} modalId={`my_modal_${index}`} />
                   </td>
                   <td>
                     <button
@@ -103,4 +109,3 @@ const OrderTracking = () => {
 };
 
 export default OrderTracking;
-

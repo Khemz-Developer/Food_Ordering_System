@@ -138,7 +138,7 @@ const Profile = ({ user }) => {
               <a href="/order">Order</a>
             </li> */}
             <li>
-            <a href="/address" >Shipping Address</a> {/* Open modal on click */}
+            <a href="/address" >Shipping Address</a> 
             </li>
             <li>
               <Link to="/dashboard">Dashboard</Link>

@@ -7,7 +7,8 @@ const verifyToken = require('../middleware/verifyToken');
 
 
 
-
+//get count of each category
+router.get('/count-each-category',menuController.getCountEachCategory);
 // get all menu items operation
 router.get('/', menuController.getAllMenuItems);
 // post a new menu item operation 
@@ -18,4 +19,5 @@ router.delete('/:id',verifyToken, menuController.deleteMenuItem);
 router.get('/:id', menuController.getSingleMenuItem);
 // update a menu item operation
 router.patch('/:id', menuController.updateMenuItem);
+
 module.exports = router;

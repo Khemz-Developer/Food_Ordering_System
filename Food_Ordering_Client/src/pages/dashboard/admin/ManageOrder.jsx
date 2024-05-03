@@ -61,13 +61,14 @@ const ManageOrder = () => {
 
   return (
     <div>
-      <div className="w-full md:w-[870px] px-4 mx-auto">
+      
+        <div className="w-full md:w-[870px] px-4 mx-auto">
         <h2 className="my-4 text-2xl font-semibold">
           Manage <span className="text-green">Order Status !</span>
         </h2>
 
         {/** Table */}
-        <div>
+       {orders.length >0 ? ( <div>
           <div className="overflow-x-auto">
             <table className="table mx-auto mt-5 ">
               {/* head */}
@@ -126,8 +127,18 @@ const ManageOrder = () => {
               </button>
             ))}
           </div>
-        </div>
+        </div>): (
+            <div className="flex flex-col text-start ">
+              <p className="font-medium text-md ">No New Orders  for Manage the Status of the Order !.</p>
+              <Link to="/dashboard">
+                <button className="mt-3 text-white btn bg-green btn-sm">
+                  Back to DashBoard
+                </button>
+              </Link>
+            </div>
+          )}
       </div>
+      
     </div>
   );
 };

@@ -42,11 +42,12 @@ const RejectedOrders = () => {
       <div className="bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
         <div className="container mx-auto bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
           <div className="bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
-            <div className="flex flex-col items-center justify-center py-28">
+            <div className="flex flex-col items-center justify-center py-20">
               <div className="text-center">
                 <h2 className="text-4xl font-bold md:text-4xl">
-                  Rejected <span className="text-green">Orders!</span>
-                </h2>
+                  Rejected <span className="text-green">Orders!</span></h2>
+                <h2 className="mt-10 text-3xl font-bold text-green">Notice</h2>
+                <h5 className="mt-10 font-medium text-1xl" style={{ fontFamily: 'Arial, sans-serif' }}>Once your payment is not successfully processed, your order status will reject by the shop.Then status of Order updated as <span className="font-bold text-red">'Reject'</span>.Please make sure to use correct Payment Way !</h5>
               </div>
             </div>
           </div>
@@ -58,7 +59,7 @@ const RejectedOrders = () => {
           {orders.length > 0 ? (
             <div>
               <div className="overflow-x-auto">
-                <table className="table mb-2">
+                <table className="table">
                   {/* head */}
                   <thead className="text-white rounded-sm bg-green">
                     <tr>
@@ -67,7 +68,7 @@ const RejectedOrders = () => {
                       <th>TransitionId</th>
                       <th>Price</th>
                       <th>Status</th>
-                      <th>Action</th>
+                      
                       <th></th>
                     </tr>
                   </thead>
@@ -80,13 +81,7 @@ const RejectedOrders = () => {
                         <td className="font-medium">{item.transitionId}</td>
                         <td>${item.price}</td>
                         <td>{item.status}</td>
-                        <th>
-                          <Link to="/contact">
-                            <button className="mt-3 text-green btn-sm ">
-                              Contact
-                            </button>
-                          </Link>
-                        </th>
+                        
                       </tr>
                     ))}
                   </tbody>

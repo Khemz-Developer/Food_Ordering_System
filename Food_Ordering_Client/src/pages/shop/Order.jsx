@@ -114,7 +114,7 @@ const Order = () => {
             </div>
           ) : (
             <div className="mt-20 text-center">
-              <p>Nothing You have Ordered. Please Buy Some Products!.</p>
+              <p>No Orders in Pending Status !. Please Buy Some Products!.</p>
               <Link to="/menu">
                 <button className="mt-3 text-white btn bg-green">
                   Back to Menu
