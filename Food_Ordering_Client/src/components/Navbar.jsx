@@ -78,7 +78,7 @@ const Navbar = () => {
         </details>
       </li>
       <li>
-        <a href="/about">About Us</a>
+        <a href="/about">Feedback</a>
       </li>
     </>
   );

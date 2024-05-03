@@ -28,7 +28,7 @@ const AddressModal = (props) => {
           <p className="py-2 pb-4 text-sm font-medium">Customer Address :<br/> {item.address}</p>
           <p className="py-2 text-sm font-medium">Postal Code : {item.postalCode}</p>
           <p className="py-2 text-sm font-medium">Total Price of the Order : $ {item.price}</p>
-          <p className="py-2 text-sm font-medium">Ordered Menu Item Name :</p>
+          <p className="py-2 text-sm font-medium">Ordered Menu Items Name :</p>
           {item.itemName.map((name, index) => (
             <p key={index} className="flex flex-row gap-2 px-5 py-2 text-sm font-medium">
               <span className="pt-1"><MdFiberManualRecord size={12} /></span> {name}

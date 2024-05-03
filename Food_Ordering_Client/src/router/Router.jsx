@@ -19,9 +19,10 @@ import Order from "../pages/shop/Order";
 import ManageOrder from "../pages/dashboard/admin/ManageOrder";
 import AcceptedOrder from "../pages/shop/AcceptedOrder";
 import RejectedOrders from "../pages/shop/RejectedOrders";
-import About from "../components/About";
+
 import Address from "../pages/shop/Address";
 import OrderTracking from "../pages/dashboard/admin/OrderTracking";
+import Feedback from "../components/FeedBack";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
         },
         {
           path:"/about",
-          element:<About/>
+          element:<Feedback/>
         },
         {
           path:"/address",
